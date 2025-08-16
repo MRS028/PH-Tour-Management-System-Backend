@@ -56,19 +56,19 @@ process.on("uncaughtException", (error) => {
 // throw new Error("Something went wrong");
 
 // signal error
-process.on("SIGTERM", () => {
-  console.log("SIGTERM is received");
-  if (server) {
-    server.close();
-  }
-});
+// process.on("SIGTERM", () => {
+//   console.log("SIGTERM is received");
+//   if (server) {
+//     server.close();
+//   }
+// });
 
-process.on("SIGINT", () => {
-  console.log("SIGINT is received");
-  if (server) {
-    server.close();
-  }
-});
+// process.on("SIGINT", () => {
+//   console.log("SIGINT is received");
+//   if (server) {
+//     server.close();
+//   }
+// });
 
 /*
   unhandledRejection error
