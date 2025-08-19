@@ -1,6 +1,9 @@
-import express, { Request, Response } from "express";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import express, {  Request, Response } from "express";
 import cors from "cors";
 import { router } from "./app/routes";
+import { globalErrorHandlers } from "./app/middlewares/globalErrorHandlers";
+
 
 const app = express();
 app.use(express.json());
@@ -13,4 +16,7 @@ app.get("/", (req: Request, res: Response) => {
     message: "Welcom to Tour management system backend",
   });
 });
+
+app.use(globalErrorHandlers);
+
 export default app;
