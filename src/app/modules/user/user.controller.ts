@@ -40,7 +40,7 @@ const createUser = catchAsync(
     const user = await UserServices.createUser(req.body);
     sendResponse(res, {
       success: true,
-      statuCode: httpStatus.CREATED,
+      statusCode: httpStatus.CREATED,
       message: "User created successfully",
       data: user,
     });
@@ -52,9 +52,9 @@ const getAllUsers = catchAsync(
     const result = await UserServices.getAllUsers();
     sendResponse(res, {
       success: true,
-      statuCode: httpStatus.CREATED,
+      statusCode: httpStatus.CREATED,
       message: "User created successfully",
-      meta: {total: result.meta},
+      meta: { total: result.meta },
       data: result.data,
     });
   }

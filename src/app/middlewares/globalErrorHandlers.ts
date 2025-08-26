@@ -29,7 +29,7 @@ export const globalErrorHandlers = (
 
     res.status(error.statusCode || 500).json({
         success: false,
-        message: `Something went wrong ${error.message} from global error handler`,
+        message: `${error.message}`,
         error,
         stack: envVars.NODE_ENV === "development" ? error.stack : null,
     });
