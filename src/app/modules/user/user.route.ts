@@ -1,9 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { NextFunction, Request, Response, Router } from "express";
+import { Router } from "express";
 import { UserControllers } from "./user.controller";
-import { ZodObject, z } from "zod";
+
 import { createUserSchema } from "./user.validation";
 import { validateRequest } from "../../middlewares/validateRequest";
+
+import { Role } from "./user.interface";
+
+import { checkAuth } from "../../middlewares/checkAuth";
 
 const router = Router();
 
@@ -12,6 +15,11 @@ router.post(
   validateRequest(createUserSchema),
   UserControllers.createUser
 );
-router.get("/all-users", UserControllers.getAllUsers);
+
+router.get(
+  "/all-users",
+  checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
+  UserControllers.getAllUsers
+);
 
 export const UserRoutes = router;
