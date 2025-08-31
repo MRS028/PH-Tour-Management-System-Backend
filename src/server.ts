@@ -3,6 +3,7 @@ import { Server } from "http";
 import mongoose from "mongoose";
 import app from "./app";
 import { envVars } from "./app/config/env";
+import { seedSuperAdmin } from "./app/utils/seedSuperAdmin";
 // import { envVars } from "./app/config/env";
 
 let server: Server;
@@ -12,7 +13,7 @@ const startServer = async () => {
     // console.log(envVars.NODE_ENV);
     await mongoose.connect(envVars.DB_URL);
 
-    console.log("Connected to mongoDB ✅"); 
+    console.log("Connected to mongoDB ✅");
     server = app.listen(envVars.PORT, () => {
       console.log(`Server is running at port ${envVars.PORT}`);
     });
@@ -20,9 +21,14 @@ const startServer = async () => {
     console.log(error);
   }
 };
+(async () => {
+  await startServer();
+  await seedSuperAdmin();
+})();
 
-startServer();
 // unhandledRejection error
+// superAdmin
+
 process.on("unhandledRejection", (error) => {
   console.log(
     "UnhandledRejection error detected ....Server shutting down",
