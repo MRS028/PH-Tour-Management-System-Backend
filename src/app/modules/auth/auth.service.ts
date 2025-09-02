@@ -31,10 +31,18 @@ const credentialsLogin = async (payload: Partial<IUser>) => {
     envVars.JWT_SECRET,
     { expiresIn: envVars.JWT_EXPIRES_IN } as SignOptions
   );
-  
+  const refreshToken = jwt.sign(
+    JwtPayload,
+    envVars.JWT_REFRESH_SECRET,
+    { expiresIn: envVars.JWT_REFRESH_EXPIRES_IN } as SignOptions
+  );
+
+
   return {
     // email: isUserExist.email,
     accessToken,
+    refreshToken,
+    user: isUserExist,
   };
 };
 
