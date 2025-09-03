@@ -9,12 +9,16 @@ import AppError from "../../errorHelpers/AppError";
 const credentialsLogin = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const loginInfo = await AuthService.credentialsLogin(req.body);
+    res.cookie("accessToken", loginInfo.accessToken, {
+      httpOnly: true,
+      secure: false,
+    });
 
-    // res.cookie("refreshToken", loginInfo., {
-    //   httpOnly: true,
-    //   secure: false,
-    //   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    // });
+    res.cookie("refreshToken", loginInfo.refreshToken, {
+      httpOnly: true,
+      secure: false,
+      // maxAge: 7 * 24 * 60 * 60 * 1000, 
+    });
 
     sendResponse(res, {
       success: true,
@@ -28,6 +32,7 @@ const credentialsLogin = catchAsync(
 const getNewAccessToken = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const refreshToken = req.cookies.refreshToken;
+    // const refreshToken = req.headers.authorization;
     if (!refreshToken) {
       return next(new AppError(httpStatus.UNAUTHORIZED, "Refresh token is missing"));
     }
