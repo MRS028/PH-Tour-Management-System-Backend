@@ -19,8 +19,8 @@ export const checkAuth =
       if (accessToken && accessToken.startsWith("Bearer ")) {
         accessToken = accessToken.slice(7, accessToken.length);
       }
-      console.log("Access Token:", accessToken);
-      console.log("JWT Secret:", envVars.JWT_SECRET);
+      // console.log("Access Token:", accessToken);
+      // console.log("JWT Secret:", envVars.JWT_SECRET);
 
       const verifiedToken = verifyToken(
         accessToken,
