@@ -5,20 +5,12 @@ import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { AuthService } from "./auth.service";
 import AppError from "../../errorHelpers/AppError";
+import { setAuthCookie } from "../user/setCookie";
 
 const credentialsLogin = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const loginInfo = await AuthService.credentialsLogin(req.body);
-    res.cookie("accessToken", loginInfo.accessToken, {
-      httpOnly: true,
-      secure: false,
-    });
-
-    res.cookie("refreshToken", loginInfo.refreshToken, {
-      httpOnly: true,
-      secure: false,
-      // maxAge: 7 * 24 * 60 * 60 * 1000, 
-    });
+    setAuthCookie(res, loginInfo);
 
     sendResponse(res, {
       success: true,
@@ -34,9 +26,14 @@ const getNewAccessToken = catchAsync(
     const refreshToken = req.cookies.refreshToken;
     // const refreshToken = req.headers.authorization;
     if (!refreshToken) {
-      return next(new AppError(httpStatus.UNAUTHORIZED, "Refresh token is missing"));
+      return next(
+        new AppError(httpStatus.UNAUTHORIZED, "Refresh token is missing")
+      );
     }
-    const tokeninfo = await AuthService.getNewAccessToken(refreshToken);
+    const tokeninfo = await AuthService.getNewAccessToken(
+      refreshToken as string
+    );
+    setAuthCookie(res, tokeninfo.accessToken);
 
     sendResponse(res, {
       success: true,
@@ -46,8 +43,31 @@ const getNewAccessToken = catchAsync(
     });
   }
 );
+const logout = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    res.clearCookie("accessToken", { httpOnly: true });
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+    });
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: true,
+    });
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "User logout successfully",
+      data: null,
+    });
+  }
+);
 
 export const AuthControllers = {
   credentialsLogin,
   getNewAccessToken,
+  logout,
 };
