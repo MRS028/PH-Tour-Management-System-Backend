@@ -6,6 +6,7 @@ import { sendResponse } from "../../utils/sendResponse";
 import { AuthService } from "./auth.service";
 import AppError from "../../errorHelpers/AppError";
 import { setAuthCookie } from "../user/setCookie";
+import { JwtPayload } from "jsonwebtoken";
 
 const credentialsLogin = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -65,9 +66,29 @@ const logout = catchAsync(
     });
   }
 );
+const resetPassword = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const newPassword = req.body.newPassword;
+    const oldPassword = req.body.oldPassword;
+    const decodedToken = req.user as JwtPayload;
+    if (!decodedToken) {
+      return next(new AppError(httpStatus.UNAUTHORIZED, "Unauthorized"));
+    }
+
+    await AuthService.resetPassword(oldPassword, newPassword, decodedToken);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Password reset successfully",
+      data: null,
+    });
+  }
+);
 
 export const AuthControllers = {
   credentialsLogin,
   getNewAccessToken,
   logout,
+  resetPassword,
 };
