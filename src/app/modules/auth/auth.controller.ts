@@ -7,6 +7,8 @@ import { AuthService } from "./auth.service";
 import AppError from "../../errorHelpers/AppError";
 import { setAuthCookie } from "../user/setCookie";
 import { JwtPayload } from "jsonwebtoken";
+import passport from "passport";
+import { createUserToken } from "../../utils/userToken";
 
 const credentialsLogin = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -86,9 +88,29 @@ const resetPassword = catchAsync(
   }
 );
 
+const googleCallback = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    if (!user) {
+      return next(new AppError(httpStatus.UNAUTHORIZED, "Unauthorized"));
+    }
+    const tokenInfo = await createUserToken(user);
+    setAuthCookie(res, tokenInfo);
+    res.redirect(`${process.env.FRONTEND_URL}`);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Google authentication successful",
+      data: user,
+    });
+  }
+);
+
 export const AuthControllers = {
   credentialsLogin,
   getNewAccessToken,
   logout,
   resetPassword,
+  googleCallback
 };
