@@ -17,11 +17,17 @@ router.post(
 router.get(
   "/google",
   async (req: Request, res: Response, next: NextFunction) => {
+    const redirectUrl = (req.query.redirect as string) || "/";
     passport.authenticate("google", {
       scope: ["profile", "email"],
+      state: redirectUrl,
     })(req, res, next);
   }
 );
-router.get("/google/callback", AuthControllers.googleCallback);
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  AuthControllers.googleCallback
+);
 
 export const AuthRoutes = router;

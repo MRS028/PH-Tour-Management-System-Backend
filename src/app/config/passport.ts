@@ -42,6 +42,7 @@ passport.use(
               },
             ],
           });
+          console.log("New user created:", user);
         }
         return done(null, user);
       } catch (error) {
@@ -50,4 +51,22 @@ passport.use(
       }
     }
   )
+);
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+passport.serializeUser((user: any, done: (err: any, id?: any) => void) => {
+  done(null, user._id);
+});
+
+passport.deserializeUser(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async (id: string, done: (err: any, user?: any) => void) => { 
+    try {
+      const user = await User.findById(id);
+      done(null, user);
+    } catch (error) {
+        console.error("Error in deserializing user:", error);
+      done(error);
+    }
+  }
 );
