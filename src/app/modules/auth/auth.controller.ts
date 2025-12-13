@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import httpStatus from "http-status-codes";
 import { NextFunction, Request, Response } from "express";
@@ -8,18 +9,41 @@ import AppError from "../../errorHelpers/AppError";
 import { setAuthCookie } from "../user/setCookie";
 import { JwtPayload } from "jsonwebtoken";
 import { createUserToken } from "../../utils/userToken";
+import passport from "passport";
 
 const credentialsLogin = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const loginInfo = await AuthService.credentialsLogin(req.body);
-    setAuthCookie(res, loginInfo);
+    // const loginInfo = await AuthService.credentialsLogin(req.body);
 
-    sendResponse(res, {
-      success: true,
-      statusCode: httpStatus.OK,
-      message: "User login successfull",
-      data: loginInfo,
-    });
+    passport.authenticate(
+      "local",
+      { session: false },
+      async (err: any, user: any, info: any) => {
+        if (err) {
+          return next(new AppError(httpStatus.BAD_REQUEST, err.message));
+        }
+        if (!user) {
+          return next(new AppError(httpStatus.UNAUTHORIZED, info.message));
+        }
+
+        const userTokens = createUserToken(user);
+        delete user.toObject().password;
+        const { password, ...rest } = user.toObject();
+        const userInfo = { ...rest };
+
+        setAuthCookie(res, userTokens);
+        sendResponse(res, {
+          success: true,
+          statusCode: httpStatus.OK,
+          message: "User login successfull",
+          data: {
+            user: userInfo,
+            accessToken: userTokens.accessToken,
+            refreshToken: userTokens.refreshToken,
+          },
+        });
+      }
+    )(req, res, next);
   }
 );
 
