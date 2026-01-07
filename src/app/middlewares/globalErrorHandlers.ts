@@ -21,9 +21,15 @@ export const globalErrorHandlers = (
     message = ` ${
       duplicate ? duplicate[1] : ""
     } already exists. Use another one!`;
-  } else if (error.name === 'CastError') {
+  } else if (error.name === "CastError") {
     statusCode = 400;
     message = `Invalid object id: ${error.value}.Please provide a valid id`;
+  }
+  else if (error.name === "ValidationError") {
+    statusCode = 400;
+    message = Object.values(error.errors)
+      .map((el: any) => el.message)
+      .join(", ");
   }
    else if (error instanceof AppError) {
     statusCode = error.statusCode;
