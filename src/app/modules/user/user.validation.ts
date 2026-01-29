@@ -2,10 +2,16 @@ import z from "zod";
 import { isActive, Role } from "./user.interface";
 
 export const createUserSchema = z.object({
-  name: z
+ name: z.object({
+    firstname: z
     .string({ message: "Name Must be String" })
     .min(2, { message: "Name is too short" })
     .max(50, { message: "Name is too long" }),
+  lastname: z
+    .string({ message: "Name Must be String" })
+    .min(2, { message: "Name is too short" })
+    .max(50, { message: "Name is too long" }),
+ }),
   email: z
     .string({ message: "Email Must be String" })
     .email({ message: "Invalid Email Address" }),
