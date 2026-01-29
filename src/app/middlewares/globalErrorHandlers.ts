@@ -25,7 +25,20 @@ export const globalErrorHandlers = (
   } else if (error.name === "CastError") {
     statusCode = 400;
     message = `Invalid object id: ${error.value}.Please provide a valid id`;
-  } else if (error.name === "ValidationError") {
+  }
+  else if(error.name === "ZodError"){
+    statusCode = 400;
+    // console.log(error.issues);
+    error.issues.forEach((issue: any) => {
+      errorSource.push({
+        path: issue.path[issue.path.length - 1 ],
+        message: issue,
+      });
+    })
+    message = "Zod Errror";
+  }
+  // mongoose validation error
+  else if (error.name === "ValidationError") {
     statusCode = 400;
     const errors = Object.values(error.errors);
    
@@ -52,7 +65,7 @@ export const globalErrorHandlers = (
     success: false,
     message,
     errorSource,
-    // error,
+    error,
     stack: envVars.NODE_ENV === "development" ? error.stack : null,
   });
 };

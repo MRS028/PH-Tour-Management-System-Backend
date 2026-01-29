@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { UserControllers } from "./user.controller";
 
-// import { createUserSchema } from "./user.validation";
-// import { validateRequest } from "../../middlewares/validateRequest";
+import { createUserSchema } from "./user.validation";
+import { validateRequest } from "../../middlewares/validateRequest";
 
 import { Role } from "./user.interface";
 
@@ -12,7 +12,7 @@ const router = Router();
 
 router.post(
   "/register",
-  // validateRequest(createUserSchema),
+  validateRequest(createUserSchema),
   UserControllers.createUser
 );
 
