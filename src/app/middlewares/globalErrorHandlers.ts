@@ -9,10 +9,11 @@ export const globalErrorHandlers = (
   error: any,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   let statusCode = 500;
   let message = "Something went wrong";
+  const errorSource:any = [];
 
   if (error.code === 11000) {
     // console.log("Duplicate key error detected");
@@ -24,14 +25,22 @@ export const globalErrorHandlers = (
   } else if (error.name === "CastError") {
     statusCode = 400;
     message = `Invalid object id: ${error.value}.Please provide a valid id`;
-  }
-  else if (error.name === "ValidationError") {
+  } else if (error.name === "ValidationError") {
     statusCode = 400;
-    message = Object.values(error.errors)
-      .map((el: any) => el.message)
-      .join(", ");
-  }
-   else if (error instanceof AppError) {
+    const errors = Object.values(error.errors);
+   
+    errors.forEach((errorObject: any) =>
+      errorSource.push({
+        path: errorObject.path,
+        message: errorObject.message,
+      }),
+    );
+    // console.log(errorSource);
+    // message = Object.values(error.errors)
+    //   .map((el: any) => el.message)
+    //   .join(", ");
+    message = "Validation Error";
+  } else if (error instanceof AppError) {
     statusCode = error.statusCode;
     message = error.message;
   } else if (error instanceof Error) {
@@ -42,7 +51,8 @@ export const globalErrorHandlers = (
   res.status(statusCode).json({
     success: false,
     message,
-    error,
+    errorSource,
+    // error,
     stack: envVars.NODE_ENV === "development" ? error.stack : null,
   });
 };
