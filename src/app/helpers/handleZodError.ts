@@ -12,7 +12,7 @@ export const handleZodError = (error: any): TGenericError => {
   });
   return {
     statusCode: 400,
-    message: "Zo Error",
+    message: "Zod Error",
     errorSources: error.issues,
   };
 };
