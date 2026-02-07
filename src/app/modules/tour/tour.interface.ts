@@ -1,7 +1,13 @@
 import { Types } from "mongoose";
 
-export interface IDivision {
-  name: string;
+
+export interface ITourType{
+    name: string;
+    slug: string;
+}
+export interface ITour {
+  title: string;
+  slug: string;
   thumbnail: string;
   description?: string;
   images: string[];
