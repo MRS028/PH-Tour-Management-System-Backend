@@ -5,8 +5,6 @@ import { validateRequest } from "../../middlewares/validateRequest";
 import { createDivisionSchema } from "./division.validation";
 import { DivisionController } from "./division.controller";
 
-
-
 const router = Router();
 
 router.post("/", 
