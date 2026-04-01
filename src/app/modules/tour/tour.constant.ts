@@ -6,4 +6,5 @@ export const tourFilterableFields = [
   "location",
   "division",
   "tourType",
+  "name"
 ];
