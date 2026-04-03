@@ -23,16 +23,59 @@ interface EnvConfig {
   CLOUDINARY_API_SECRET: string;
   CLOUDINARY_URL: string;
   CLOUDINARY_FOLDER: string;
+  SSL: {
+    SSL_COMMERZ_STORE_ID: string;
+    SSL_COMMERZ_STORE_PASSWORD: string;
+    SSL_COMMERZ_PAYMNET_API: string;
+    SSL_COMMERZ_VALIDATION_API: string;
+    SSL_COMMERZ_SUCCESS_BACKEND_URL: string;
+    SSL_COMMERZ_FAIL_BACKEND_URL: string;
+    SSL_COMMERZ_CANCEL_BACKEND_URL: string;
+    SSL_COMMERZ_SUCCESS_FRONTEND_URL: string;
+    SSL_COMMERZ_FAIL_FRONTEND_URL: string;
+    SSL_COMMERZ_CANCEL_FRONTEND_URL: string;
+  };
 }
 
 const loadEnvVariables = (): EnvConfig => {
-  const requiredEnvVariables = ["PORT", "DB_URL", "NODE_ENV", "JWT_SECRET", "JWT_EXPIRES_IN", "BCRYPT_SALT_ROUNDS", "SUPER_ADMIN_EMAIL", "SUPER_ADMIN_PASSWORD", "JWT_REFRESH_SECRET", "JWT_REFRESH_EXPIRES_IN","EXPRESS_SESSION_SECRET","FRONTEND_URL","GOOGLE_CLIENT_ID","GOOGLE_CLIENT_SECRET","GOOGLE_CALLBACK_URL","CLOUDINARY_CLOUD_NAME","CLOUDINARY_API_KEY","CLOUDINARY_API_SECRET","CLOUDINARY_URL","CLOUDINARY_FOLDER" ];
+  const requiredEnvVariables = [
+    "PORT",
+    "DB_URL",
+    "NODE_ENV",
+    "JWT_SECRET",
+    "JWT_EXPIRES_IN",
+    "BCRYPT_SALT_ROUNDS",
+    "SUPER_ADMIN_EMAIL",
+    "SUPER_ADMIN_PASSWORD",
+    "JWT_REFRESH_SECRET",
+    "JWT_REFRESH_EXPIRES_IN",
+    "EXPRESS_SESSION_SECRET",
+    "FRONTEND_URL",
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
+    "GOOGLE_CALLBACK_URL",
+    "CLOUDINARY_CLOUD_NAME",
+    "CLOUDINARY_API_KEY",
+    "CLOUDINARY_API_SECRET",
+    "CLOUDINARY_URL",
+    "CLOUDINARY_FOLDER",
+    "SSL_COMMERZ_STORE_ID",
+    "SSL_COMMERZ_STORE_PASSWORD",
+    "SSL_COMMERZ_PAYMNET_API",
+    "SSL_COMMERZ_VALIDATION_API",
+    "SSL_COMMERZ_SUCCESS_BACKEND_URL",
+    "SSL_COMMERZ_FAIL_BACKEND_URL",
+    "SSL_COMMERZ_CANCEL_BACKEND_URL",
+    "SSL_COMMERZ_SUCCESS_FRONTEND_URL",
+    "SSL_COMMERZ_FAIL_FRONTEND_URL",
+    "SSL_COMMERZ_CANCEL_FRONTEND_URL",
+  ];
 
-requiredEnvVariables.forEach((envVariable) => {
-  if (!process.env[envVariable]) {
-    throw new Error(`Missing environment variable: ${envVariable}`);
-  }
-});
+  requiredEnvVariables.forEach((envVariable) => {
+    if (!process.env[envVariable]) {
+      throw new Error(`Missing environment variable: ${envVariable}`);
+    }
+  });
 
   return {
     PORT: process.env.PORT as string,
@@ -55,7 +98,26 @@ requiredEnvVariables.forEach((envVariable) => {
     CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET as string,
     CLOUDINARY_URL: process.env.CLOUDINARY_URL as string,
     CLOUDINARY_FOLDER: process.env.CLOUDINARY_FOLDER as string,
-
+    SSL: {
+      SSL_COMMERZ_STORE_ID: process.env.SSL_COMMERZ_STORE_ID as string,
+      SSL_COMMERZ_STORE_PASSWORD: process.env
+        .SSL_COMMERZ_STORE_PASSWORD as string,
+      SSL_COMMERZ_PAYMNET_API: process.env.SSL_COMMERZ_PAYMNET_API as string,
+      SSL_COMMERZ_VALIDATION_API: process.env
+        .SSL_COMMERZ_VALIDATION_API as string,
+      SSL_COMMERZ_SUCCESS_BACKEND_URL: process.env
+        .SSL_COMMERZ_SUCCESS_BACKEND_URL as string,
+      SSL_COMMERZ_FAIL_BACKEND_URL: process.env
+        .SSL_COMMERZ_FAIL_BACKEND_URL as string,
+      SSL_COMMERZ_CANCEL_BACKEND_URL: process.env
+        .SSL_COMMERZ_CANCEL_BACKEND_URL as string,
+      SSL_COMMERZ_SUCCESS_FRONTEND_URL: process.env
+        .SSL_COMMERZ_SUCCESS_FRONTEND_URL as string,
+      SSL_COMMERZ_FAIL_FRONTEND_URL: process.env
+        .SSL_COMMERZ_FAIL_FRONTEND_URL as string,
+      SSL_COMMERZ_CANCEL_FRONTEND_URL: process.env
+        .SSL_COMMERZ_CANCEL_FRONTEND_URL as string,
+    },
   };
 };
 

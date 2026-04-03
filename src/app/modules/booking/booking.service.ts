@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Payment } from "./../payment/payment.model";
 import httpStatus from "http-status-codes";
 import AppError from "../../errorHelpers/AppError";
@@ -5,7 +6,7 @@ import { User } from "../user/user.model";
 import { BOOKING_STATUS, IBooking } from "./booking.interface";
 import { Booking } from "./booking.model";
 import { Tour } from "../tour/tour.model";
-import e from "express";
+import { SSLService } from "../sslcommerz/sslcommerz.service";
 
 const getTransactionId = () => {
   return `TRXN${Date.now()}${Math.floor(Math.random() * 1000)}`;
@@ -41,23 +42,27 @@ const createBooking = async (payload: Partial<IBooking>, userId: string) => {
     const amount = Number(tour.costFrom) * Number(payload.guestCount);
 
     const booking = await Booking.create(
-      [{
-        user: userId,
-        status: BOOKING_STATUS.PENDING,
-        ...payload,
-      }],
+      [
+        {
+          user: userId,
+          status: BOOKING_STATUS.PENDING,
+          ...payload,
+        },
+      ],
       { session },
     );
 
     //   throw new Error("Simulated error after booking creation");
 
     const payment = await Payment.create(
-      [{
-        booking: booking[0]._id,
-        amount: amount,
-        status: BOOKING_STATUS.PENDING,
-        transactionId: transactionId,
-      }],
+      [
+        {
+          booking: booking[0]._id,
+          amount: amount,
+          status: BOOKING_STATUS.PENDING,
+          transactionId: transactionId,
+        },
+      ],
       { session },
     );
 
@@ -70,11 +75,30 @@ const createBooking = async (payload: Partial<IBooking>, userId: string) => {
       .populate("tour", "title costFrom")
       .populate("payment");
 
+    const userAddress = (updatedBooking?.user as any).address;
+    const userEmail = (updatedBooking?.user as any).email;
+    const userName = (updatedBooking?.user as any).name;
+    const userPhone = (updatedBooking?.user as any).phone;
+
+    const sslPayload = {
+      address: userAddress,
+      email: userEmail,
+      name: userName,
+      phone: userPhone,
+      amount: amount,
+      transactionId: transactionId,
+      currency: "BDT",
+    };
+
+    const sslPayment = await SSLService.sslPaymentInit(sslPayload);
+
     await session.commitTransaction();
     session.endSession();
 
-    return updatedBooking;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return {
+        booking: updatedBooking,
+        payment: sslPayment,
+    };
   } catch (error: any) {
     await session.abortTransaction();
     session.endSession();
