@@ -25,13 +25,8 @@
             },
             "url": {
               "raw": "{{baseURL}}/auth/login",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "auth",
-                "login"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["auth", "login"]
             }
           },
           "response": []
@@ -57,13 +52,8 @@
             },
             "url": {
               "raw": "{{baseURL}}/user/register",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "user",
-                "register"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["user", "register"]
             }
           },
           "response": []
@@ -80,13 +70,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/user/all-users",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "user",
-                "all-users"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["user", "all-users"]
             }
           },
           "response": []
@@ -111,17 +96,463 @@
             },
             "url": {
               "raw": "{{baseURL}}/user/:id",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "user",
-                ":id"
-              ],
+              "host": ["{{baseURL}}"],
+              "path": ["user", ":id"],
               "variable": [
                 {
                   "key": "id",
                   "value": "USER_ID_HERE"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Division",
+      "item": [
+        {
+          "name": "Create Division",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Dhaka\",\n  \"thumbnail\": \"https://example.com/thumbnail.jpg\",\n  \"description\": \"Description of Dhaka\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/division",
+              "host": ["{{baseURL}}"],
+              "path": ["division"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Divisions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/division",
+              "host": ["{{baseURL}}"],
+              "path": ["division"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Division",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/division/:slug",
+              "host": ["{{baseURL}}"],
+              "path": ["division", ":slug"],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "dhaka"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Division",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Dhaka Updated\",\n  \"thumbnail\": \"https://example.com/thumbnail.jpg\",\n  \"description\": \"Updated description\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/division/:id",
+              "host": ["{{baseURL}}"],
+              "path": ["division", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "DIVISION_ID_HERE"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Division",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/division/:id",
+              "host": ["{{baseURL}}"],
+              "path": ["division", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "DIVISION_ID_HERE"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tour",
+      "item": [
+        {
+          "name": "Get All Tour Types",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/tour/tour-types",
+              "host": ["{{baseURL}}"],
+              "path": ["tour", "tour-types"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Tour Type",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Adventure\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/tour/create-tour-type",
+              "host": ["{{baseURL}}"],
+              "path": ["tour", "create-tour-type"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Tour Type",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/tour/tour-types/:id",
+              "host": ["{{baseURL}}"],
+              "path": ["tour", "tour-types", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "TOUR_TYPE_ID_HERE"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Tour Type",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Adventure Updated\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/tour/tour-types/:id",
+              "host": ["{{baseURL}}"],
+              "path": ["tour", "tour-types", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "TOUR_TYPE_ID_HERE"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Tour Type",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/tour/tour-types/:id",
+              "host": ["{{baseURL}}"],
+              "path": ["tour", "tour-types", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "TOUR_TYPE_ID_HERE"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Tours",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/tour",
+              "host": ["{{baseURL}}"],
+              "path": ["tour"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Tour",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Amazing Tour",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Description",
+                  "type": "text"
+                },
+                {
+                  "key": "location",
+                  "value": "Dhaka",
+                  "type": "text"
+                },
+                {
+                  "key": "costFrom",
+                  "value": "1000",
+                  "type": "text"
+                },
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01",
+                  "type": "text"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-01-05",
+                  "type": "text"
+                },
+                {
+                  "key": "tourType",
+                  "value": "TOUR_TYPE_ID",
+                  "type": "text"
+                },
+                {
+                  "key": "included",
+                  "value": "[\"food\",\"accommodation\"]",
+                  "type": "text"
+                },
+                {
+                  "key": "excluded",
+                  "value": "[\"travel\"]",
+                  "type": "text"
+                },
+                {
+                  "key": "amenities",
+                  "value": "[\"wifi\",\"pool\"]",
+                  "type": "text"
+                },
+                {
+                  "key": "tourPlan",
+                  "value": "[\"Day 1: Arrival\"]",
+                  "type": "text"
+                },
+                {
+                  "key": "maxGuest",
+                  "value": "10",
+                  "type": "text"
+                },
+                {
+                  "key": "minAge",
+                  "value": "18",
+                  "type": "text"
+                },
+                {
+                  "key": "division",
+                  "value": "DIVISION_ID",
+                  "type": "text"
+                },
+                {
+                  "key": "departureLocation",
+                  "value": "Airport",
+                  "type": "text"
+                },
+                {
+                  "key": "arrivalLocation",
+                  "value": "Hotel",
+                  "type": "text"
+                },
+                {
+                  "key": "files",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseURL}}/tour/create",
+              "host": ["{{baseURL}}"],
+              "path": ["tour", "create"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Tour",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/tour/:slug",
+              "host": ["{{baseURL}}"],
+              "path": ["tour", ":slug"],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "amazing-tour"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Tour",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Amazing Tour Updated",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Updated description",
+                  "type": "text"
+                },
+                {
+                  "key": "deleteImages",
+                  "value": "[\"image_id\"]",
+                  "type": "text"
+                },
+                {
+                  "key": "files",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseURL}}/tour/:id",
+              "host": ["{{baseURL}}"],
+              "path": ["tour", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "TOUR_ID_HERE"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Tour",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/tour/:id",
+              "host": ["{{baseURL}}"],
+              "path": ["tour", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "TOUR_ID_HERE"
                 }
               ]
             }
@@ -136,18 +567,14 @@
       "listen": "prerequest",
       "script": {
         "type": "text/javascript",
-        "exec": [
-          ""
-        ]
+        "exec": [""]
       }
     },
     {
       "listen": "test",
       "script": {
         "type": "text/javascript",
-        "exec": [
-          ""
-        ]
+        "exec": [""]
       }
     }
   ],

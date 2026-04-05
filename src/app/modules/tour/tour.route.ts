@@ -25,7 +25,7 @@ router.post(
 
 router.get(
     "/tour-types/:id",
-    TourController.getAllTourTypes
+    TourController.getSingleTourType
 );
 router.patch(
     "/tour-types/:id",
