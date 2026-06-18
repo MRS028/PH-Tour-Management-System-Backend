@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { v2 as cloudinary } from "cloudinary";
 // import stream from "stream";
 // import AppError from "../errorHelpers/AppError";
