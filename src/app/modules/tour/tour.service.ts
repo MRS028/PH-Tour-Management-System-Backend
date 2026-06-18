@@ -1,10 +1,12 @@
-import { deleteImageFromCLoudinary } from "../../config/cloudinary.config";
+
+import { deleteFromCloudinary } from "../../config/cloudinary.config";
 import { QueryBuilder } from "../../utils/QueryBuilder";
 import { tourSearchableFields } from "./tour.constant";
 import { ITour, ITourType } from "./tour.interface";
 import { Tour, TourType } from "./tour.model";
 
 const createTour = async (payload: ITour) => {
+  // throw new Error("This is a test error from service layer");
   const existingTour = await Tour.findOne({ title: payload.title });
   if (existingTour) {
     throw new Error("A tour with this title already exists.");
@@ -101,7 +103,7 @@ const updateTour = async (
     existingTour.images.length > 0
   ) {
     await Promise.all(
-      payload.deleteImages.map((url) => deleteImageFromCLoudinary(url)),
+      payload.deleteImages.map((url) => deleteFromCloudinary(url)),
     );
   }
 
